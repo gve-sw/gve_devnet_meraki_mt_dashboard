@@ -1,0 +1,40 @@
+version: "3"
+services:
+  grafana:
+    container_name: ${GRAFANA_HOST}
+    restart: always
+    image: grafana/grafana
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports:
+      - ${GRAFANA_PORT}:${GRAFANA_PORT}
+    user: "0"
+    environment:
+      - TZ=Europe/Amsterdam
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+    env_file:
+      - .env
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - webnet
+  influxdb:
+    container_name: ${INFLUX_HOST}
+    restart: always
+    image: influxdb
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports:
+      - ${INFLUX_PORT}:${INFLUX_PORT}
+    volumes:
+      - ./influxdb/:/root/.influxdbv2
+    environment:
+      - TZ=Europe/Amsterdam
+    networks:
+      - webnet
+networks:
+  webnet:

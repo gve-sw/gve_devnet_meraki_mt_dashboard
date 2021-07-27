@@ -1,0 +1,882 @@
+{% extends "base.html" %}
+
+{% block title %}Heat Map{% endblock %}
+
+{% block pageTitle %}Heat Map{% endblock %}
+
+{% block section1title %}<h2>Heat Map</h2>{% endblock %}
+
+
+{% block section1content %}
+
+<div>
+    <div>
+        <row>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id1" href="{{ url_for('heatmap', sensor='rack_id1') }}" style="color:white;">{{ temp_values["rack_id1"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id2" href="{{ url_for('heatmap', sensor='rack_id2') }}" style="color:white;">{{ temp_values["rack_id2"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id3" href="{{ url_for('heatmap', sensor='rack_id3') }}" style="color:white;">{{ temp_values["rack_id3"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id4" href="{{ url_for('heatmap', sensor='rack_id4') }}" style="color:white;">{{ temp_values["rack_id4"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id5" href="{{ url_for('heatmap', sensor='rack_id5') }}" style="color:white;">{{ temp_values["rack_id5"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id6" href="{{ url_for('heatmap', sensor='rack_id6') }}" style="color:white;">{{ temp_values["rack_id6"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id7" href="{{ url_for('heatmap', sensor='rack_id7') }}" style="color:white;">{{ temp_values["rack_id7"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id8" href="{{ url_for('heatmap', sensor='rack_id8') }}" style="color:white;">{{ temp_values["rack_id8"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id9" href="{{ url_for('heatmap', sensor='rack_id9') }}" style="color:white;">{{ temp_values["rack_id9"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id10" href="{{ url_for('heatmap', sensor='rack_id10') }}" style="color:white;">{{ temp_values["rack_id10"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id11" href="{{ url_for('heatmap', sensor='rack_id11') }}" style="color:white;">{{ temp_values["rack_id11"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id12" href="{{ url_for('heatmap', sensor='rack_id12') }}" style="color:white;">{{ temp_values["rack_id12"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id13" href="{{ url_for('heatmap', sensor='rack_id13') }}" style="color:white;">{{ temp_values["rack_id13"] }}</a></span>
+            <span style="margin:0px 0px 0px 120px;"><a id="rack_id14" href="{{ url_for('heatmap', sensor='rack_id14') }}" style="color:white;">{{ temp_values["rack_id14"] }}</a></span>
+        </row>
+    </div>
+    <img src="/static/server_room.png">
+    <div>
+        <row>
+            <span style="margin:0px 0px 0px 185px;"><a id="rack_id1" href="{{ url_for('heatmap', sensor='rack_id1') }}" style="color:white;">{{ temp_values["rack_id1"] }}</a></span>
+            <span style="margin:0px 0px 0px 185px;"><a id="rack_id3" href="{{ url_for('heatmap', sensor='rack_id3') }}" style="color:white;">{{ temp_values["rack_id3"] }}</a></span>
+            <span style="margin:0px 0px 0px 185px;"><a id="rack_id5" href="{{ url_for('heatmap', sensor='rack_id5') }}" style="color:white;">{{ temp_values["rack_id5"] }}</a></span>
+            <span style="margin:0px 0px 0px 185px;"><a id="rack_id7" href="{{ url_for('heatmap', sensor='rack_id7') }}" style="color:white;">{{ temp_values["rack_id7"] }}</a></span>
+            <span style="margin:0px 0px 0px 185px;"><a id="rack_id9" href="{{ url_for('heatmap', sensor='rack_id9') }}" style="color:white;">{{ temp_values["rack_id9"] }}</a></span>
+            <span style="margin:0px 0px 0px 185px;"><a id="rack_id11" href="{{ url_for('heatmap', sensor='rack_id11') }}" style="color:white;">{{ temp_values["rack_id11"] }}</a></span>
+            <span style="margin:0px 0px 0px 185px;"><a id="rack_id13" href="{{ url_for('heatmap', sensor='rack_id13') }}" style="color:white;">{{ temp_values["rack_id13"] }}</a></span>
+        </row>
+    </div>
+</div>
+
+<br><br><br>
+  <!-- <form action="{{ url_for('submit_sensor') }}" method="post" id="submit_sensor_form" style="display:none"> </form> -->
+<div id="sensor_alertprofiles_all" style="display:inline">
+      <h3>Alert Profiles Overview</h3>
+      <table class="table table--lined table--compressed">
+        <thead>
+          <tr>
+            <th>Alert Profile</th>
+            <th>Alarm Type</th>
+            <th>Applied to Following Sensors:</th>
+          </tr>
+        </thead>
+        <tbody id="table_data_live_overview"></tbody>
+      </table>
+      <br>
+      <button class="btn btn--success" id="alertprofile_adding_all" onclick="add_alert_all();">
+          <span class="icon-plus"></span>
+          Add New Alert Profile
+      </button>
+      <button class="btn btn--success" id="snooze_all" onclick="snooze_all();">
+          <span class="icon-pause"></span>
+          Snooze Alerts for Sensors
+      </button>
+      <div id="add_alert_all_div" style="display:none">
+          <br><br>
+          <form action="{{ url_for('add_alertprofile', sensor='all') }}" method="post">
+              <label for="ap_name_all">Name: </label>
+              <input type="text" id="ap_name_all" name="ap_name_all" required>
+              <br>
+              <label for="ap_conditiontype_all">Condition Type: </label>
+              <select id="ap_conditiontype_all" name="ap_conditiontype_all" onchange="show_conditions_all()">
+                  <option value="temperature">Temperature</option>
+                  <option value="humidity">Humidity</option>
+                  <option value="water_detection">Water detected</option>
+                  <option value="door">Door open</option>
+              </select>
+              <br>
+              <label>Conditions: </label><br>
+              <div id="temp_conditions_all" style="display:inline;">
+                  <input type="checkbox" id="above_t_all" onchange="above_t_f_all()" checked>
+                  <label for="above_t_all"> Above </label>
+                  <input type="number" id="above_t_value_all" name="above_t_value_all">
+                  <label for="above_t_value_all">°C</label>
+                  <label for="above_t_time_all"> for </label>
+                  <select id="above_t_time_all" name="above_t_time_all">
+                      <option value="any">any amount of time</option>
+                      <option value="1m">1 minute</option>
+                      <option value="2m">2 minutes</option>
+                      <option value="3m">3 minutes</option>
+                      <option value="4m">4 minutes</option>
+                      <option value="5m">5 minutes</option>
+                      <option value="10m">10 minutes</option>
+                      <option value="15m">15 minutes</option>
+                      <option value="30m">30 minutes</option>
+                      <option value="1h">1 hour</option>
+                  </select>
+                  <br>
+                  <input type="checkbox" id="below_t_all" onchange="below_t_f_all()">
+                  <label for="below_t"> Below </label>
+                  <input type="number" id="below_t_value_all" name=below_t_value_all" disabled>
+                  <label for="below_t_value">°C</label>
+                  <label for="below_t_time"> for </label>
+                  <select id="below_t_time_all" name="below_t_time_all" disabled>
+                      <option value="any">any amount of time</option>
+                      <option value="1">1 minute</option>
+                      <option value="2">2 minutes</option>
+                      <option value="3">3 minutes</option>
+                      <option value="4">4 minutes</option>
+                      <option value="5">5 minutes</option>
+                      <option value="10">10 minutes</option>
+                      <option value="15">15 minutes</option>
+                      <option value="30">30 minutes</option>
+                      <option value="60">1 hour</option>
+                  </select>
+              </div>
+              <div id="humidity_conditions_all" style="display:none;">
+                  <input type="checkbox" id="above_h_all" onchange="above_h_f_all()" checked>
+                  <label for="above_h_all"> Above </label>
+                  <input type="number" id="above_h_value_all" name="above_h_value_all">
+                  <label for="above_h_value_all">%RH</label>
+                  <label for="above_h_time_all"> for </label>
+                  <select id="above_h_time_all" name="above_h_time_all">
+                      <option value="any">any amount of time</option>
+                      <option value="1">1 minute</option>
+                      <option value="2">2 minutes</option>
+                      <option value="3">3 minutes</option>
+                      <option value="4">4 minutes</option>
+                      <option value="5">5 minutes</option>
+                      <option value="10">10 minutes</option>
+                      <option value="15">15 minutes</option>
+                      <option value="30">30 minutes</option>
+                      <option value="60">1 hour</option>
+                  </select>
+                  <br>
+                  <input type="checkbox" id="below_h_all" onchange="below_h_f_all()">
+                  <label for="below_h"> Below </label>
+                  <input type="number" id="below_h_value_all" name="below_h_value_all" disabled>
+                  <label for="below_h_value_all">%RH</label>
+                  <label for="below_h_time_all"> for </label>
+                  <select id="below_h_time_all" name="below_h_time_all" disabled>
+                      <option value="any">any amount of time</option>
+                      <option value="1">1 minute</option>
+                      <option value="2">2 minutes</option>
+                      <option value="3">3 minutes</option>
+                      <option value="4">4 minutes</option>
+                      <option value="5">5 minutes</option>
+                      <option value="10">10 minutes</option>
+                      <option value="15">15 minutes</option>
+                      <option value="30">30 minutes</option>
+                      <option value="60">1 hour</option>
+                  </select>
+              </div>
+              <div id="water_door_conditions_all" style="display:none;">
+                  <input type="radio" id="enabled_all" name="enabling_all" value="enabled" checked>
+                  <label for="enabled_all">Enabled</label>
+              </div>
+              <br>
+              <label for="ap_sensorapply_all">Apply to all sensors?</label>
+              <input type="checkbox" id="ap_sensorapply_all" name="ap_sensorapply_all" checked="true">
+              <br>
+              <input type="submit" onclick="loading_alertprofile_all()">
+              <div class="loader loader--small" aria-label="Loading, please wait..." id="loading_alertprofile_all" style="display:none">
+                <div class="wrapper">
+                    <div class="wheel" style="width:20px;height:20px;"></div>
+                </div>
+              </div>
+          </form>
+      </div>
+      <div class="row" id="snooze_div_all" style="display:none;">
+          <br><br>
+              <form action="{{ url_for('snooze_sensors') }}" method="post">
+                  <label>Choose Alerts to Snooze for All Sensors: </label>
+                  <div id="dynamic_checkbox_all">
+                      <input type="checkbox" id="select_all_all">
+                      <label for="select_all_all">Select all</label>
+                      <br>
+                  </div>
+                    <br>
+                  <label for="snooze_interval_all">For how long (in minutes)?</label>
+                  <input type="number" id="snooze_interval_all" name="snooze_minutes" required>
+                  <br><br>
+                  <input type="submit" onclick="loading_snooze_minutes_all()">
+                  <div class="loader loader--small" aria-label="Loading, please wait..." id="loading_snooze_minutes_all" style="display:none">
+                    <div class="wrapper">
+                        <div class="wheel" style="width:20px;height:20px;"></div>
+                    </div>
+                  </div>
+              </form>
+
+
+      </div>
+  </div>
+
+
+<div id="submit_sensor_form" style="display:none">
+      <div style="display:flex;">
+          <h3>Alert Profiles for {{ sensor }}</h3>
+          <form action="{{ url_for('heatmap', sensor='all') }}" method="post" style="position:relative;left:30px;">
+              <button class="btn btn--ghost btn--small" type="submit">
+                  <span class="icon-watchlist"></span>
+                  Back to all Sensors
+              </button>
+          </form>
+      </div>
+
+        <br>
+      <table class="table table--lined table--compressed">
+        <thead>
+          <tr>
+            <th>Alert Profile</th>
+            <th>Applied to Sensor?</th>
+            <th>Assign/Unassign Permanently?</th>
+          </tr>
+        </thead>
+        <tbody id="table_data_live"></tbody>
+      </table>
+      <br>
+      <button class="btn btn--success" id="alertprofile_adding" onclick="add_alert();">
+          <span class="icon-plus"></span>
+          Add New Alert Profile
+      </button>
+      <button class="btn btn--success" id="snooze" onclick="snooze();">
+          <span class="icon-pause"></span>
+          Snooze Alerts for Sensor
+      </button>
+      <div id="snooze_div" style="display:none;">
+          <br><br>
+          <form action="{{ url_for('snooze_sensors', sensor=sensor) }}" method="post">
+              <label>Choose Alerts to Snooze for {{ sensor }}: </label>
+              <div id="dynamic_checkbox">
+                  <input type="checkbox" id="select_all">
+                  <label for="select_all">Select all</label>
+                  <br>
+              </div>
+                <br>
+              <label for="snooze_interval">For how long (in minutes)?</label>
+              <input type="number" id="snooze_interval" name="snooze_minutes" required>
+              <br><br>
+              <input type="submit" onclick="loading_snooze_minutes()">
+                                <div class="loader loader--small" aria-label="Loading, please wait..." id="loading_snooze_minutes" style="display:none">
+                    <div class="wrapper">
+                        <div class="wheel" style="width:20px;height:20px;"></div>
+                    </div>
+                  </div>
+          </form>
+      </div>
+      <div id="add_alert" style="display:none">
+          <br><br>
+          <form action="{{ url_for('add_alertprofile', sensor=sensor) }}" method="post">
+              <label for="ap_name">Name: </label>
+              <input type="text" id="ap_name" name="ap_name" required>
+              <br>
+              <label for="ap_conditiontype">Condition Type: </label>
+              <select id="ap_conditiontype" name="ap_conditiontype" onchange="show_conditions()">
+                  <option value="temperature">Temperature</option>
+                  <option value="humidity">Humidity</option>
+                  <option value="water_detection">Water detected</option>
+                  <option value="door">Door open</option>
+              </select>
+              <br>
+              <label>Conditions: </label><br>
+              <div id="temp_conditions" style="display:inline;">
+                  <input type="checkbox" id="above_t" onchange="above_t_f()" checked>
+                  <label for="above_t"> Above </label>
+                  <input type="number" id="above_t_value" name="above_t_value">
+                  <label for="above_t_value">°C</label>
+                  <label for="above_t_time"> for </label>
+                  <select id="above_t_time" name="above_t_time">
+                      <option value="any">any amount of time</option>
+                      <option value="1">1 minute</option>
+                      <option value="2">2 minutes</option>
+                      <option value="3">3 minutes</option>
+                      <option value="4">4 minutes</option>
+                      <option value="5">5 minutes</option>
+                      <option value="10">10 minutes</option>
+                      <option value="15">15 minutes</option>
+                      <option value="30">30 minutes</option>
+                      <option value="60">1 hour</option>
+                  </select>
+                  <br>
+                  <input type="checkbox" id="below_t" onchange="below_t_f()">
+                  <label for="below_t"> Below </label>
+                  <input type="number" id="below_t_value" name="below_t_value" disabled>
+                  <label for="below_t_value">°C</label>
+                  <label for="below_t_time"> for </label>
+                  <select id="below_t_time" name="above_t_time" disabled>
+                      <option value="any">any amount of time</option>
+                      <option value="1">1 minute</option>
+                      <option value="2">2 minutes</option>
+                      <option value="3">3 minutes</option>
+                      <option value="4">4 minutes</option>
+                      <option value="5">5 minutes</option>
+                      <option value="10">10 minutes</option>
+                      <option value="15">15 minutes</option>
+                      <option value="30">30 minutes</option>
+                      <option value="60">1 hour</option>
+                  </select>
+              </div>
+              <div id="humidity_conditions" style="display:none;">
+                  <input type="checkbox" id="above_h" onchange="above_h_f()" checked>
+                  <label for="above_h"> Above </label>
+                  <input type="number" id="above_h_value" name="above_h_value">
+                  <label for="above_h_value">%RH</label>
+                  <label for="above_h_time"> for </label>
+                  <select id="above_h_time" name="above_h_time">
+                      <option value="any">any amount of time</option>
+                      <option value="1">1 minute</option>
+                      <option value="2">2 minutes</option>
+                      <option value="3">3 minutes</option>
+                      <option value="4">4 minutes</option>
+                      <option value="5">5 minutes</option>
+                      <option value="10">10 minutes</option>
+                      <option value="15">15 minutes</option>
+                      <option value="30">30 minutes</option>
+                      <option value="60">1 hour</option>
+                  </select>
+                  <br>
+                  <input type="checkbox" id="below_h" onchange="below_h_f()">
+                  <label for="below_h"> Below </label>
+                  <input type="number" id="below_h_value" name="below_h_value" disabled>
+                  <label for="below_h_value">%RH</label>
+                  <label for="below_h_time"> for </label>
+                  <select id="below_h_time" name="below_h_time" disabled>
+                      <option value="any">any amount of time</option>
+                      <option value="1">1 minute</option>
+                      <option value="2">2 minutes</option>
+                      <option value="3">3 minutes</option>
+                      <option value="4">4 minutes</option>
+                      <option value="5">5 minutes</option>
+                      <option value="10">10 minutes</option>
+                      <option value="15">15 minutes</option>
+                      <option value="30">30 minutes</option>
+                      <option value="60">1 hour</option>
+                  </select>
+              </div>
+              <div id="water_door_conditions" style="display:none;">
+                  <input type="radio" id="enabled" name="enabling" value="enabled" checked>
+                  <label for="enabled">Enabled</label>
+              </div>
+              <br>
+              <label for="ap_sensorapply">Apply to {{ sensor }}?</label>
+              <input type="checkbox" id="ap_sensorapply" name="ap_sensorapply" checked="true">
+              <br>
+              <input type="submit" onclick="loading_alertprofile();">
+              <div class="loader loader--small" aria-label="Loading, please wait..." id="loading_alertprofile" style="display:none">
+                <div class="wrapper">
+                    <div class="wheel" style="width:20px;height:20px;"></div>
+                </div>
+              </div>
+          </form>
+      </div>
+  </div>
+
+
+
+
+<script>
+    console.log({{ logic }});
+    if ({{ logic }} === 1) {
+        var sensor_form = document.getElementById("submit_sensor_form");
+        sensor_form.style.display = "inline";
+        var sensor_all_form = document.getElementById("sensor_alertprofiles_all");
+        sensor_all_form.style.display = "none";
+    } else if ({{ logic }} === 0) {
+        var sensor_form = document.getElementById("submit_sensor_form");
+        sensor_form.style.display = "none";
+        var sensor_all_form = document.getElementById("sensor_alertprofiles_all");
+        sensor_all_form.style.display = "inline";
+    }
+
+    var temp_values = {{ temp_values|safe }}
+    var temp_values_list = Object.keys(temp_values);
+    var temp_values_list_length = temp_values_list.length;
+    for (var i = 0; i < temp_values_list_length; i++) {
+        var temp_str = temp_values[temp_values_list[i]]
+        var temp_float = parseFloat(temp_str.replace(' °C',''));
+        var color = 'LightGreen';
+        if (temp_float <= {{ ASHRAE_low }}) {
+            var color = 'DeepSkyBlue';
+        } else if (temp_float >= {{ ASHRAE_high }}) {
+            var color = 'OrangeRed';
+        }
+        document.getElementById(temp_values_list[i]).style.backgroundColor = color;
+    }
+
+    var alertprofiles_to_snooze = {{ alertprofiles_to_snooze|safe }};
+    var alertprofiles_to_snooze_length = alertprofiles_to_snooze.length;
+    var alert_profiles_overview = {{ alert_profiles_overview|safe }};
+    var alert_profiles_overview_length = alert_profiles_overview.length;
+    var alert_profiles = {{ alert_profiles|safe }};
+    var alert_profiles_length = alert_profiles.length;
+
+    for (var k = 0; k < alert_profiles_overview_length; k++) {
+        var tr_alerts = document.createElement('TR');
+        var tr_alerts_id = 'tr_alerts_' + k.toString();
+        tr_alerts.setAttribute('id', tr_alerts_id);
+        document.getElementById('table_data_live_overview').appendChild(tr_alerts);
+
+        var td_alerts_profile = document.createElement('TD');
+        var tx_alerts_profile = document.createTextNode(alert_profiles_overview[k]['name']);
+        td_alerts_profile.appendChild(tx_alerts_profile);
+        document.getElementById(tr_alerts_id).appendChild(td_alerts_profile);
+
+        var td_condition = document.createElement('TD');
+        var tx_condition = document.createTextNode(alert_profiles_overview[k]['type']);
+        td_condition.appendChild(tx_condition);
+        document.getElementById(tr_alerts_id).appendChild(td_condition);
+
+        var td_profile_applied = document.createElement('TD');
+        var alert_sensor_mapping = alert_profiles_overview[k]['activated'];
+        var alert_sensor_mapping_length = alert_sensor_mapping.length;
+        var snoozed = 'false';
+        if (alert_sensor_mapping_length === 0) {
+
+            var snooze_until = '';
+            for (var u = 0; u < alertprofiles_to_snooze_length; u++) {
+                if (alert_profiles_overview[k]['name'] === alertprofiles_to_snooze[u]['name']) {
+                    snoozed = 'true';
+                    snooze_until = alertprofiles_to_snooze[u]['snooze_until'];
+                    snoozed_sensors_no = alertprofiles_to_snooze[u]['snoozed_sensors'].length;
+                }
+            }
+
+            if (snoozed === 'false') {
+                var form = document.createElement("form");
+                form.setAttribute("method", "post");
+                form.setAttribute("action", "{{ url_for('submit_sensor') }}");
+
+                var c = document.createElement("input");
+                c.setAttribute("type", "checkbox");
+                c.setAttribute("checked", "true");
+                c.setAttribute("style", "display:none;");
+                var profile = alert_profiles_overview[k]['name'];
+                var conca = 'all'.concat('...',profile,'...assign');
+                c.setAttribute("id", conca);
+                c.setAttribute("name", conca);
+                form.appendChild(c);
+
+                var s = document.createElement("input");
+                s.setAttribute("type", "submit");
+                s.setAttribute("value", "Assign to Sensors Permanently");
+                form.appendChild(s);
+
+                td_profile_applied.appendChild(form);
+                document.getElementById(tr_alerts_id).appendChild(td_profile_applied);
+
+                snoozed = 'true';
+
+            } else {
+                var snooze_con = "This alert profile is snoozed for ".concat(snoozed_sensors_no," sensors until ",snooze_until,".");
+                var tx_snooze_until = document.createTextNode(snooze_con);
+                td_profile_applied.appendChild(tx_snooze_until);
+                document.getElementById(tr_alerts_id).appendChild(td_profile_applied);
+            }
+        }
+        var ul_element = document.createElement("ul");
+        var ul_element_id = 'ul_element_' + k.toString();
+        ul_element.setAttribute('id', ul_element_id);
+        for (var l = 0; l < alert_sensor_mapping_length; l++) {
+            var li_element = document.createElement("li");
+            var li_element_value = document.createTextNode(alert_sensor_mapping[l]);
+            li_element.appendChild(li_element_value);
+            ul_element.appendChild(li_element);
+        }
+        if (snoozed === "false") {
+            for (var u = 0; u < alertprofiles_to_snooze_length; u++) {
+                if (alert_profiles_overview[k]['name'] === alertprofiles_to_snooze[u]['name']) {
+                    snooze_until = alertprofiles_to_snooze[u]['snooze_until'];
+                    snoozed_sensors_no = alertprofiles_to_snooze[u]['snoozed_sensors'].length;
+                    if (snoozed_sensors_no === 1) {
+                        var snooze_message = snoozed_sensors_no.toString().concat(' additional sensor is snoozed for this alert until ',snooze_until);
+                    } else {
+                        var snooze_message = snoozed_sensors_no.toString().concat(' additional sensors are snoozed for this alert until ',snooze_until);
+                    }
+                    var li_element = document.createElement("li");
+                    var li_element_value = document.createTextNode(snooze_message);
+                    li_element.appendChild(li_element_value);
+                    ul_element.appendChild(li_element);
+                }
+            }
+         }
+
+        td_profile_applied.appendChild(ul_element);
+        document.getElementById(tr_alerts_id).appendChild(td_profile_applied);
+
+
+
+    }
+
+    var arr = [];
+    for (var m = 0; m < alert_profiles_overview_length; m++) {
+        if (alert_profiles_overview[m]['activated'].length != 0) {
+            arr.push(alert_profiles_overview[m]['name']);
+        }
+    }
+    var a;
+    var b = 0;
+    for (a of arr) {
+        b ++;
+
+        var input = document.createElement("INPUT");
+        input.setAttribute("type", "checkbox");
+        input.setAttribute("id", "checkbox-" + a);
+        input.setAttribute("name", "checkbox-" + a);
+
+        var label_input = document.createElement("label");
+        label_input.htmlFor = "checkbox-" + a;
+        label_input.appendChild(document.createTextNode(a));
+
+        var linebreak = document.createElement("br");
+
+        var checkboxes = document.getElementById("dynamic_checkbox_all");
+        checkboxes.appendChild(input);
+        checkboxes.appendChild(label_input);
+        checkboxes.appendChild(linebreak);
+    }
+
+    document.getElementById('select_all_all').onclick = function() {
+        for (a of arr) {
+            var checkbox_check = document.getElementById("checkbox-" + a);
+            checkbox_check.checked = this.checked;
+        }
+    }
+
+    for (var j = 0; j < alert_profiles_length; j++) {
+        var tr_alerts = document.createElement('TR');
+        var tr_alerts_id = 'tr_alerts_' + j.toString();
+        tr_alerts.setAttribute('id', tr_alerts_id);
+        document.getElementById('table_data_live').appendChild(tr_alerts);
+
+        var td_alerts_profile = document.createElement('TD');
+        var tx_alerts_profile = document.createTextNode(alert_profiles[j]['name']);
+        td_alerts_profile.appendChild(tx_alerts_profile);
+        document.getElementById(tr_alerts_id).appendChild(td_alerts_profile);
+
+        var td_profile_applied = document.createElement('TD');
+        var alert_sensor_mapping = alert_profiles[j]['activated'];
+        var tx_profile_applied = document.createTextNode(alert_sensor_mapping);
+        td_profile_applied.appendChild(tx_profile_applied);
+        document.getElementById(tr_alerts_id).appendChild(td_profile_applied);
+
+        if (alert_sensor_mapping === 'yes') {
+            var td_profile_change = document.createElement('TD');
+
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "{{ url_for('submit_sensor') }}");
+
+            var c = document.createElement("input");
+            c.setAttribute("type", "checkbox");
+            c.setAttribute("checked", "true");
+            c.setAttribute("style", "display:none;");
+            var sensor = "{{ sensor }}";
+            var profile = alert_profiles[j]['name'];
+            var conc = sensor.concat('...',profile,'...unassign');
+            c.setAttribute("id", conc);
+            c.setAttribute("name", conc);
+            form.appendChild(c);
+
+            var s = document.createElement("input");
+            s.setAttribute("type", "submit");
+            s.setAttribute("value", "Unassign from Sensor");
+
+            form.appendChild(s);
+            td_profile_change.appendChild(form);
+            document.getElementById(tr_alerts_id).appendChild(td_profile_change);
+
+        } else if (alert_sensor_mapping === 'no') {
+            var td_profile_change = document.createElement('TD');
+
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "{{ url_for('submit_sensor') }}");
+
+            var c = document.createElement("input");
+            c.setAttribute("type", "checkbox");
+            c.setAttribute("checked", "true");
+            c.setAttribute("style", "display:none;");
+            var sensor = "{{ sensor }}";
+            var profile = alert_profiles[j]['name'];
+            var conc = sensor.concat('...',profile,'...assign');
+            c.setAttribute("id", conc);
+            c.setAttribute("name", conc);
+            form.appendChild(c);
+
+            var snoozed = 'false';
+            var snooze_until = '';
+            for (var o = 0; o < alertprofiles_to_snooze_length; o++) {
+                console.log(alert_profiles[j]['name']);
+                console.log(alertprofiles_to_snooze[o]['name']);
+                if (alert_profiles[j]['name'] === alertprofiles_to_snooze[o]['name']) {
+                    snoozed = 'true';
+                    snooze_until = alertprofiles_to_snooze[o]['snooze_until'];
+                    var snooze_con = "This alert profile is snoozed for this sensor until ".concat(snooze_until,".");
+                    var tx_snooze_until = document.createTextNode(snooze_con);
+                    td_profile_change.appendChild(tx_snooze_until);
+                }
+             }
+
+
+            if (snoozed === 'false') {
+                    var s = document.createElement("input");
+                    s.setAttribute("type", "submit");
+                    s.setAttribute("value", "Assign to Sensor");
+                    form.appendChild(s);
+            }
+            td_profile_change.appendChild(form);
+            document.getElementById(tr_alerts_id).appendChild(td_profile_change);
+        }
+
+
+
+    }
+
+    var arr_ = [];
+    for (var n = 0; n < alert_profiles_length; n++) {
+        if (alert_profiles[n]['activated'] === 'yes') {
+            arr_.push(alert_profiles[n]['name']);
+        }
+    }
+    console.log(arr_);
+    var c;
+    var d = 0;
+    for (c of arr_) {
+        d ++;
+
+        var input = document.createElement("INPUT");
+        input.setAttribute("type", "checkbox");
+        input.setAttribute("id", "checkbox-" + c);
+        input.setAttribute("name", "checkbox-" + c);
+
+        var label_input = document.createElement("label");
+        label_input.htmlFor = "checkbox-" + c;
+        label_input.appendChild(document.createTextNode(c));
+
+        var linebreak = document.createElement("br");
+
+        var checkboxes = document.getElementById("dynamic_checkbox");
+        checkboxes.appendChild(input);
+        checkboxes.appendChild(label_input);
+        checkboxes.appendChild(linebreak);
+    }
+
+    document.getElementById('select_all').onclick = function() {
+        for (c of arr_) {
+            var checkbox_check = document.getElementById("checkbox-" + c);
+            checkbox_check.checked = this.checked;
+        }
+    }
+
+    function add_alert() {
+        var show_alert = document.getElementById("add_alert");
+        if (show_alert.style.display === "inline") {
+            show_alert.style.display = "none";
+        } else if (show_alert.style.display === "none") {
+            show_alert.style.display = "inline";
+        }
+
+        var snooze_div = document.getElementById("snooze_div");
+        if (snooze_div.style.display === "inline") {
+            snooze_div.style.display = "none";
+        }
+    }
+
+    function snooze() {
+        var snooze_div = document.getElementById("snooze_div");
+        if (snooze_div.style.display === "inline") {
+            snooze_div.style.display = "none";
+        } else if (snooze_div.style.display === "none") {
+            snooze_div.style.display = "inline";
+        }
+
+        var show_alert = document.getElementById("add_alert");
+        if (show_alert.style.display === "inline") {
+            show_alert.style.display = "none";
+        }
+    }
+
+    function add_alert_all() {
+        var show_alert_all = document.getElementById("add_alert_all_div");
+        if (show_alert_all.style.display === "inline") {
+            show_alert_all.style.display = "none";
+        } else if (show_alert_all.style.display === "none") {
+            show_alert_all.style.display = "inline";
+        }
+
+        var snooze_div_all = document.getElementById("snooze_div_all");
+        if (snooze_div_all.style.display === "inline") {
+            snooze_div_all.style.display = "none";
+        }
+    }
+
+    function snooze_all() {
+        var snooze_div_all = document.getElementById("snooze_div_all");
+        if (snooze_div_all.style.display === "inline") {
+            snooze_div_all.style.display = "none";
+        } else if (snooze_div_all.style.display === "none") {
+            snooze_div_all.style.display = "inline";
+        }
+
+        var show_alert_all = document.getElementById("add_alert_all_div");
+        if (show_alert_all.style.display === "inline") {
+            show_alert_all.style.display = "none";
+        }
+    }
+
+    function show_conditions_all() {
+        var ap_conditiontype = document.getElementById("ap_conditiontype_all");
+        var conditiontype_value = ap_conditiontype.value;
+        if (conditiontype_value === 'temperature') {
+            var temp_div = document.getElementById("temp_conditions_all");
+            temp_div.style.display = "inline";
+            var temp_div = document.getElementById("humidity_conditions_all");
+            temp_div.style.display = "none";
+            var temp_div = document.getElementById("water_door_conditions_all");
+            temp_div.style.display = "none";
+        } else if (conditiontype_value === 'humidity') {
+            var temp_div = document.getElementById("temp_conditions_all");
+            temp_div.style.display = "none";
+            var temp_div = document.getElementById("humidity_conditions_all");
+            temp_div.style.display = "inline";
+            var temp_div = document.getElementById("water_door_conditions_all");
+            temp_div.style.display = "none";
+        } else if ((conditiontype_value === 'water_detection') || (conditiontype_value === 'door')) {
+            var temp_div = document.getElementById("temp_conditions_all");
+            temp_div.style.display = "none";
+            var temp_div = document.getElementById("humidity_conditions_all");
+            temp_div.style.display = "none";
+            var temp_div = document.getElementById("water_door_conditions_all");
+            temp_div.style.display = "inline";
+        }
+    }
+
+    function show_conditions() {
+        var ap_conditiontype = document.getElementById("ap_conditiontype");
+        var conditiontype_value = ap_conditiontype.value;
+        if (conditiontype_value === 'temperature') {
+            var temp_div = document.getElementById("temp_conditions");
+            temp_div.style.display = "inline";
+            var temp_div = document.getElementById("humidity_conditions");
+            temp_div.style.display = "none";
+            var temp_div = document.getElementById("water_door_conditions");
+            temp_div.style.display = "none";
+        } else if (conditiontype_value === 'humidity') {
+            var temp_div = document.getElementById("temp_conditions");
+            temp_div.style.display = "none";
+            var temp_div = document.getElementById("humidity_conditions");
+            temp_div.style.display = "inline";
+            var temp_div = document.getElementById("water_door_conditions");
+            temp_div.style.display = "none";
+        } else if ((conditiontype_value === 'water_detection') || (conditiontype_value === 'door')) {
+            var temp_div = document.getElementById("temp_conditions");
+            temp_div.style.display = "none";
+            var temp_div = document.getElementById("humidity_conditions");
+            temp_div.style.display = "none";
+            var temp_div = document.getElementById("water_door_conditions");
+            temp_div.style.display = "inline";
+        }
+    }
+
+
+    function above_t_f_all() {
+        var checkbox = document.getElementById('above_t_all');
+        if (checkbox.checked == true) {
+            document.getElementById("above_t_value_all").disabled = false;
+            document.getElementById("above_t_time_all").disabled = false;
+        } else if (checkbox.checked == false) {
+            document.getElementById("above_t_value_all").disabled = true;
+            document.getElementById("above_t_time_all").disabled = true;
+        }
+    }
+
+    function below_t_f_all() {
+        var checkbox = document.getElementById('below_t_all');
+        if (checkbox.checked == true) {
+            document.getElementById("below_t_value_all").disabled = false;
+            document.getElementById("below_t_time_all").disabled = false;
+        } else if (checkbox.checked == false) {
+            document.getElementById("below_t_value_all").disabled = true;
+            document.getElementById("below_t_time_all").disabled = true;
+        }
+    }
+
+    function above_h_f_all() {
+        var checkbox = document.getElementById('above_h_all');
+        if (checkbox.checked == true) {
+            document.getElementById("above_h_value_all").disabled = false;
+            document.getElementById("above_h_time_all").disabled = false;
+        } else if (checkbox.checked == false) {
+            document.getElementById("above_h_value_all").disabled = true;
+            document.getElementById("above_h_time_all").disabled = true;
+        }
+    }
+
+    function below_h_f_all() {
+        var checkbox = document.getElementById('below_h_all');
+        if (checkbox.checked == true) {
+            document.getElementById("below_h_value_all").disabled = false;
+            document.getElementById("below_h_time_all").disabled = false;
+        } else if (checkbox.checked == false) {
+            document.getElementById("below_h_value_all").disabled = true;
+            document.getElementById("below_h_time_all").disabled = true;
+        }
+    }
+
+    function above_t_f() {
+        var checkbox = document.getElementById('above_t');
+        if (checkbox.checked == true) {
+            document.getElementById("above_t_value").disabled = false;
+            document.getElementById("above_t_time").disabled = false;
+        } else if (checkbox.checked == false) {
+            document.getElementById("above_t_value").disabled = true;
+            document.getElementById("above_t_time").disabled = true;
+        }
+    }
+
+    function below_t_f() {
+        var checkbox = document.getElementById('below_t');
+        if (checkbox.checked == true) {
+            document.getElementById("below_t_value").disabled = false;
+            document.getElementById("below_t_time").disabled = false;
+        } else if (checkbox.checked == false) {
+            document.getElementById("below_t_value").disabled = true;
+            document.getElementById("below_t_time").disabled = true;
+        }
+    }
+
+    function above_h_f() {
+        var checkbox = document.getElementById('above_h');
+        if (checkbox.checked == true) {
+            document.getElementById("above_h_value").disabled = false;
+            document.getElementById("above_h_time").disabled = false;
+        } else if (checkbox.checked == false) {
+            document.getElementById("above_h_value").disabled = true;
+            document.getElementById("above_h_time").disabled = true;
+        }
+    }
+
+    function below_h_f() {
+        var checkbox = document.getElementById('below_h');
+        if (checkbox.checked == true) {
+            document.getElementById("below_h_value").disabled = false;
+            document.getElementById("below_h_time").disabled = false;
+        } else if (checkbox.checked == false) {
+            document.getElementById("below_h_value").disabled = true;
+            document.getElementById("below_h_time").disabled = true;
+        }
+    }
+
+
+    function loading_snooze_minutes_all() {
+        var wheel = document.getElementById("loading_snooze_minutes_all");
+        wheel.style.display = "inline-block";
+    }
+
+    function loading_snooze_minutes() {
+        var wheel = document.getElementById("loading_snooze_minutes");
+        wheel.style.display = "inline-block";
+    }
+
+    function loading_alertprofile_all() {
+        var wheel = document.getElementById("loading_alertprofile_all");
+        wheel.style.display = "inline-block";
+    }
+
+    function loading_alertprofile() {
+        var wheel = document.getElementById("loading_alertprofile");
+        wheel.style.display = "inline-block";
+    }
+
+
+</script>
+
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
